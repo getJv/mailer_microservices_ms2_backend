@@ -153,5 +153,86 @@ class MailTest extends TestCase
             ]);
     }
 
+    /** @test */
+    public function email_title_is_required()
+    {
+
+        $response = $this->post('/api/mails', [
+            'title' => '',
+            'recipients' => 'email1@newmail.com',
+            'content_type' => 'richText',
+            'body'  => 'My email message'
+        ])->assertStatus(422);
+
+        $responseString = json_decode($response->getContent(), true);
+
+        $this->assertArrayHasKey('title', $responseString['errors']['meta']);
+        $this->assertCount(0, Mail::all());
+    }
+
+    /** @test */
+    public function email_recipients_is_required()
+    {
+        $response = $this->post('/api/mails', [
+            'title' => 'sdasdasdas',
+            'recipients' => '',
+            'content_type' => 'richText',
+            'body'  => 'My email message'
+        ])->assertStatus(422);
+
+        $responseString = json_decode($response->getContent(), true);
+
+        $this->assertArrayHasKey('recipients', $responseString['errors']['meta']);
+        $this->assertCount(0, Mail::all());
+    }
+
+    /** @test */
+    public function email_content_type_is_required()
+    {
+        $response = $this->post('/api/mails', [
+            'title' => 'sdasdasdas',
+            'recipients' => 'asdasdasd',
+            'content_type' => '',
+            'body'  => 'My email message'
+        ])->assertStatus(422);
+
+        $responseString = json_decode($response->getContent(), true);
+
+        $this->assertArrayHasKey('content_type', $responseString['errors']['meta']);
+        $this->assertCount(0, Mail::all());
+    }
+
+    /** @test */
+    public function email_content_type_must_be_valid()
+    {
+        $response = $this->post('/api/mails', [
+            'title' => 'sdasdasdas',
+            'recipients' => 'asdasdasd',
+            'content_type' => 'sdsadasd',
+            'body'  => 'My email message'
+        ])->assertStatus(422);
+
+        $responseString = json_decode($response->getContent(), true);
+
+        $this->assertArrayHasKey('content_type', $responseString['errors']['meta']);
+        $this->assertCount(0, Mail::all());
+    }
+
+    /** @test */
+    public function email_body_is_required()
+    {
+        $response = $this->post('/api/mails', [
+            'title' => 'sdasdasdas',
+            'recipients' => 'asdasdasd',
+            'content_type' => 'asdasdas',
+            'body'  => ''
+        ])->assertStatus(422);
+
+        $responseString = json_decode($response->getContent(), true);
+
+        $this->assertArrayHasKey('body', $responseString['errors']['meta']);
+        $this->assertCount(0, Mail::all());
+    }
+
 
 }

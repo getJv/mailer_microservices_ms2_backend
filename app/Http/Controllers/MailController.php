@@ -9,12 +9,15 @@ use App\Http\Resources\MailCollection;
 
 class MailController extends Controller
 {
+    private $content_type_options = ['markdown','richText','plainText'];
+
     public function store()
     {
+
         $data = request()->validate([
             'title'        => 'required',
             'recipients'   => 'required',
-            'content_type' => 'required',
+            'content_type' => 'required|in:'.implode(',', $this->content_type_options),
             'body'         => 'required',
         ]);
 
@@ -27,7 +30,7 @@ class MailController extends Controller
         $data = request()->validate([
             'title'        => 'sometimes|required',
             'recipients'   => 'sometimes|required',
-            'content_type' => 'sometimes|required',
+            'content_type' => 'sometimes|required|in:'.implode(',', $this->content_type_options),
             'body'         => 'sometimes|required',
 
         ]);
