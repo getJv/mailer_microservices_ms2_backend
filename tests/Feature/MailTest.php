@@ -88,4 +88,42 @@ class MailTest extends TestCase
             ]
         ]);
     }
+
+     /** @test */
+    public function emails_can_be_retrieved()
+    {
+
+        $this->withoutExceptionHandling();
+        Mail::factory()->count(3)->create();
+        $mails = mail::all();
+
+        $this->get('/api/mails/')
+            ->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    [
+                        'data' => [
+                            'type' => 'mails',
+                            'id'   => $mails->last()->id,
+                            'attributes' => [
+                                'title'        => $mails->last()->title,
+                                'recipients'   => $mails->last()->recipients,
+                                'content_type' => $mails->last()->content_type,
+                                'body'         => $mails->last()->body,
+                            ],
+
+                        ],
+                        'links' => [
+                            'self' => url('/api/mails/' . $mails->last()->id)
+                        ]
+                    ]
+                ],
+                'total_mails' => $mails->count(),
+                'links' => [
+                    'self' => url('/api/mails/')
+                ]
+            ]);
+    }
+
+
 }

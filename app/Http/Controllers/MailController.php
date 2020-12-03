@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Mail;
 use App\Http\Resources\Mail as MailResource;
+use App\Http\Resources\MailCollection;
 
 class MailController extends Controller
 {
@@ -32,5 +33,10 @@ class MailController extends Controller
         ]);
         $mail->update($data);
         return new MailResource($mail);
+    }
+
+    public function index()
+    {
+        return new MailCollection(Mail::orderBy('id','desc')->get());
     }
 }
