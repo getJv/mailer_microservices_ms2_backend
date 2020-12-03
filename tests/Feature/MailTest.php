@@ -5,8 +5,9 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\Mail;
 
-class MailerTest extends TestCase
+class MailTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -26,7 +27,7 @@ class MailerTest extends TestCase
         $this->assertEquals('My email title', $mail->title);
         $this->assertEquals('email1@newmail.com', $mail->recipients);
         $this->assertEquals('richText', $mail->content_type);
-        $this->assertEquals('body', $mail->body);
+        $this->assertEquals('My email message', $mail->body);
         $response->assertJson([
             'data' => [
                 'type' => 'mails',
