@@ -20,4 +20,17 @@ class MailController extends Controller
         $mail = Mail::create($data);
         return new MailResource($mail);
     }
+
+    public function update(Mail $mail)
+    {
+        $data = request()->validate([
+            'title'        => 'sometimes|required',
+            'recipients'   => 'sometimes|required',
+            'content_type' => 'sometimes|required',
+            'body'         => 'sometimes|required',
+
+        ]);
+        $mail->update($data);
+        return new MailResource($mail);
+    }
 }

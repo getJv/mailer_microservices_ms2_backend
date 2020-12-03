@@ -45,4 +45,47 @@ class MailTest extends TestCase
             ]
         ]);
     }
+     /** @test */
+    public function an_email_can_be_updated()
+    {
+        $this->withoutExceptionHandling();
+        Mail::factory()->create([
+            'title' => 'My email title',
+            'recipients' => 'email1@newmail.com',
+            'content_type' => 'richText',
+            'body'  => 'My email message'
+        ]);
+
+
+        $response = $this->patch('/api/mails/1', [
+            'title' => 'My email title 2',
+            'recipients' => 'email2@newmail.com',
+            'content_type' => 'markdown',
+            'body'  => 'My email message 2'
+        ])->assertStatus(200);
+
+
+        $mail = Mail::find(1);
+        $this->assertEquals('My email title 2', $mail->title);
+        $this->assertEquals('email2@newmail.com', $mail->recipients);
+        $this->assertEquals('markdown', $mail->content_type);
+        $this->assertEquals('My email message 2', $mail->body);
+
+       $response->assertJson([
+            'data' => [
+                'type' => 'mails',
+                'id' => $mail->id,
+                'attributes' => [
+                    'title' => $mail->title,
+                    'recipients' => $mail->recipients,
+                    'content_type' => $mail->content_type,
+                    'body' => $mail->body,
+                ],
+
+            ],
+            'links' => [
+                'self' => url('/api/mails/' . $mail->id)
+            ]
+        ]);
+    }
 }
