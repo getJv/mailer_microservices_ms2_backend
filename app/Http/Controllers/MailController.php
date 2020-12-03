@@ -39,4 +39,9 @@ class MailController extends Controller
     {
         return new MailCollection(Mail::orderBy('id','desc')->get());
     }
+
+    public function show(Mail $mail)
+    {
+        return new MailResource($mail);
+    }
 }
