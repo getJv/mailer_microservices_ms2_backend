@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Mail;
 use App\Http\Resources\Mail as MailResource;
 use App\Http\Resources\MailCollection;
+use App\Jobs\MailRequestJob;
+use Log;
 
 class MailController extends Controller
 {
@@ -22,6 +24,7 @@ class MailController extends Controller
         ]);
 
         $mail = Mail::create($data);
+        MailRequestJob::dispatch($mail);
         return new MailResource($mail);
     }
 
