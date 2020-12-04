@@ -39,5 +39,8 @@ RUN sed -i 's+/var/www/html+/var/www/html/${DOCUMENT_ROOT_CONTEXT}+g' /etc/apach
 # Copy existing application directory contents
 COPY ./ /var/www/html/
 
+RUN chown -R www-data:www-data /var/www/html/storage
+
 EXPOSE 80
-CMD ["php-fpm"]
+
+
