@@ -28,6 +28,7 @@ class MailTest extends TestCase
         $this->assertEquals('email1@newmail.com', $mail->recipients);
         $this->assertEquals('richText', $mail->content_type);
         $this->assertEquals('My email message', $mail->body);
+        $this->assertEquals('queued', $mail->status);
         $response->assertJson([
             'data' => [
                 'type' => 'mails',
@@ -37,6 +38,7 @@ class MailTest extends TestCase
                     'recipients' => $mail->recipients,
                     'content_type' => $mail->content_type,
                     'body' => $mail->body,
+                    'status' => $mail->status,
                 ],
 
             ],

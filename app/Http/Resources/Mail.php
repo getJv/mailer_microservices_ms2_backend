@@ -23,6 +23,7 @@ class Mail extends JsonResource
                     'recipients' => $this->recipients,
                     'content_type' => $this->content_type,
                     'body' => $this->body,
+                    'status' => $this->status,
                 ],
 
             ],

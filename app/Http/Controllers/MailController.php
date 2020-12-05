@@ -24,6 +24,7 @@ class MailController extends Controller
         ]);
 
         $mail = Mail::create($data);
+
         MailRequestJob::dispatch($mail);
         return new MailResource($mail);
     }
