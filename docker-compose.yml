@@ -9,9 +9,10 @@ services:
     environment:
       - DOCUMENT_ROOT_CONTEXT=public
       - ALLOW_OVERRIDE_OPTION=All
-      - APPLICATION_ENV_OPTION=production
+      - APPLICATION_ENV_OPTION=development
     links:
       - mysql
+      - redis
   mysql:
     container_name: mysql
     image: getjv/mysql
@@ -21,3 +22,9 @@ services:
     environment:
       - MYSQL_DATABASE=laravel_default_project
       - MYSQL_ROOT_PASSWORD=mysql
+  redis:
+    container_name: redis
+    image: redis
+    restart: always
+    ports:
+      - "6379:6379"
