@@ -18,7 +18,7 @@ class MailTest extends TestCase
         $response = $this->post('/api/mails', [
             'title' => 'My email title',
             'recipients' => 'email1@newmail.com',
-            'content_type' => 'richText',
+            'content_type' => 'text/html',
             'body'  => 'My email message'
         ])->assertStatus(201);
 
@@ -26,9 +26,8 @@ class MailTest extends TestCase
         $mail = Mail::find(1);
         $this->assertEquals('My email title', $mail->title);
         $this->assertEquals('email1@newmail.com', $mail->recipients);
-        $this->assertEquals('richText', $mail->content_type);
+        $this->assertEquals('text/html', $mail->content_type);
         $this->assertEquals('My email message', $mail->body);
-        $this->assertEquals('queued', $mail->status);
         $response->assertJson([
             'data' => [
                 'type' => 'mails',
@@ -38,7 +37,7 @@ class MailTest extends TestCase
                     'recipients' => $mail->recipients,
                     'content_type' => $mail->content_type,
                     'body' => $mail->body,
-                    'status' => $mail->status,
+
                 ],
 
             ],
@@ -54,7 +53,7 @@ class MailTest extends TestCase
         Mail::factory()->create([
             'title' => 'My email title',
             'recipients' => 'email1@newmail.com',
-            'content_type' => 'richText',
+            'content_type' => 'text/html',
             'body'  => 'My email message'
         ]);
 
@@ -62,7 +61,7 @@ class MailTest extends TestCase
         $response = $this->patch('/api/mails/1', [
             'title' => 'My email title 2',
             'recipients' => 'email2@newmail.com',
-            'content_type' => 'markdown',
+            'content_type' => 'text/markdown',
             'body'  => 'My email message 2'
         ])->assertStatus(200);
 
@@ -70,7 +69,7 @@ class MailTest extends TestCase
         $mail = Mail::find(1);
         $this->assertEquals('My email title 2', $mail->title);
         $this->assertEquals('email2@newmail.com', $mail->recipients);
-        $this->assertEquals('markdown', $mail->content_type);
+        $this->assertEquals('text/markdown', $mail->content_type);
         $this->assertEquals('My email message 2', $mail->body);
 
        $response->assertJson([
@@ -82,6 +81,7 @@ class MailTest extends TestCase
                     'recipients' => $mail->recipients,
                     'content_type' => $mail->content_type,
                     'body' => $mail->body,
+                    'status' => $mail->status,
                 ],
 
             ],

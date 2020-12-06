@@ -18,8 +18,8 @@ class CreateMailsTable extends Migration
             $table->string('title')->comment('Stores the email title');
             $table->string('recipients')->comment('Stores all the public recipients - to field');
             $table->text('body')->comment('Stores the message body');
-            $table->string('content_type')->comment('Stores the dialect used to write body message: html,markdown,plaintext');
-            $table->enum('status', ['queued', 'bounced','delivered'])->default('queued')->comment('Stores status processing: queued, bounced,
+            $table->enum('content_type',['text/markdown', 'text/plain','text/html'])->default('text/html')->comment('Stores the dialect used to write body message: html,markdown,plaintext');
+            $table->enum('status', ['queued', 'bounced','delivered','failed'])->default('queued')->comment('Stores status processing: queued, bounced,
 delivered...');
             $table->timestamps();
         });

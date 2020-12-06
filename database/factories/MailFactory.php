@@ -24,7 +24,7 @@ class MailFactory extends Factory
         return [
             'title'         => $this->faker->title,
             'body'          => $this->faker->text(200),
-            'content_type'  => $this->faker->randomElement($array = array ('markdownText','plainText','richText')),
+            'content_type'  => $this->faker->randomElement($array = array ('text/html','text/plain','text/markdown')),
             'recipients'    => $this->faker->email,
         ];
     }

@@ -7,11 +7,11 @@ use App\Models\Mail;
 use App\Http\Resources\Mail as MailResource;
 use App\Http\Resources\MailCollection;
 use App\Jobs\MailRequestJob;
-use Log;
+
 
 class MailController extends Controller
 {
-    private $content_type_options = ['markdown','richText','plainText'];
+    private $content_type_options = ['text/markdown','text/html','text/plain'];
 
     public function store()
     {
