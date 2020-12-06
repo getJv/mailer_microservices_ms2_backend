@@ -1,61 +1,83 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+<h1 align="center">
+    <img alt="Mailer Distributed Systems Test" title="Mailer Distributed Systems Test" src=".github/logo.svg" />
+</h1>
 
 <p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <a href="#-technologies">Technologies</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-project">Project</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-livepreview">Live Preview</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#memo-licença">License</a>
 </p>
 
-## About Laravel
+<p align="center">
+ <img src="https://img.shields.io/static/v1?label=PRs&message=welcome&color=15C3D6&labelColor=000000" alt="PRs welcome!" />
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+<img alt="License" src="https://img.shields.io/static/v1?label=license&message=MIT&color=15C3D6&labelColor=000000">
+</p>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<p align="center" >
+  <img id="gif" alt="gif preview" width="600" src=".github/preview.png" />
+</p>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🔖 Project
 
-## Learning Laravel
+Mailer Distributed Systems was my takeaway code challenge. The followed requirement was needed:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Backend
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. (done) Make sure emails are sent with a high degree of certainty. When such an external service is unavailable there should be a fallback to a secondary service.
+2. (done) There probably will be more fallbacks so this should be taken into account. Do not use the Laravel mailer but write your own implementation.
+3. (done) This microservice should be able to send an e-mail by an (JSON) API and through a CLI
+   command.
+4. (done) have a log entry for every email that is sent through this microservice.
+5. (done) API calls the sending should happen asynchronously (use the queuing technique of your own preference).
+6. (done) The micro-service is horizontal scalable
+7. (partial) The code has tests
+8. (done) You’re including a readme which describes the choices you made and why
+9. (done) You’re using micro-commits
+10. (done) we will only have Docker running on our machines and should not have to install any additional software to get this micro-service running.
 
-## Laravel Sponsors
+### Backend (Bonus points)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+11. (done) Create a VueJS application which allows us to send an email (using this service)
+12. (done) which allows us to see all the emails with their status (e.g. queued, bounced,,delivered)
+13. (done) Allow multiple mail formats
+14. (not done) Allow more recipients
 
-### Premium Partners
+## 💻 Livepreview
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
+<p align="center" >
 
-## Contributing
+Video Presentation: [Youtube Video]()
+<br/>
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+</p>
 
-## Code of Conduct
+## 🚀 Technologies
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### FrontEnd
 
-## Security Vulnerabilities
+-   Vue
+-   Vuex
+-   Vuetify
+-   Vue Router
+-   Axios
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+[Visit Frontend repo](https://github.com/getJv/mailer_microservices_ms1_frontend)
 
-## License
+### Backend
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+-   Docker
+-   Docker Compose
+-   Laravel
+-   Laravel Queue
+-   Redis
+-   HTTP API Mailer (Sendgrid)
+-   HTTP API Mailer (MailJed)
+-   Mysql
+
+## :memo: Licença
+
+Project under MIT license. Visit [LICENSE](LICENSE.md) to more.
+
+<small>Fonte: la Unica 35 px - Photopea </small>
