@@ -5,7 +5,6 @@ namespace App\Services\Mailer;
 use App\Models\Mail;
 use App\Services\Mailer\MailerGatewayInterface;
 use Exception;
-use Illuminate\Support\Facades\Log;
 use \SendGrid\Mail\Mail as SendGridMail;
 use SendGrid;
 
@@ -15,7 +14,6 @@ class SendGridMailerGateway implements MailerGatewayInterface{
 
     private $sendgridService;
     private $emailMessage;
-
 
     public function __construct()
     {
@@ -37,26 +35,19 @@ class SendGridMailerGateway implements MailerGatewayInterface{
 
     public function send(Mail $mail){
 
+        $this->prepareMail($mail);
+        $mail->bounced();
 
-        try {
-            $this->prepareMail($mail);
-            $mail->bounced();
+        $response = $this->sendgridService->send($this->emailMessage);
 
-            $response = $this->sendgridService->send($this->emailMessage);
-
-            if($response->statusCode() > 299){
-                throw new Exception($response->body());
-            }
-
-            $mail->delivered();
-
-        } catch (\Exception $e) {
+        if($response->statusCode() > 202){
             $mail->failed();
             \Log::error($e->getMessage());
             \Log::error($e->getTraceAsString());
-           throw new \Exception($e->getMessage());
-
+            throw new Exception($response->body());
         }
+
+        $mail->delivered();
 
     }
 

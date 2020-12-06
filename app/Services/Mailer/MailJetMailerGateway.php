@@ -3,52 +3,67 @@
 namespace App\Services\Mailer;
 
 use App\Models\Mail;
-use App\Services\Mailer\MailerGatewayInterface;
 use App\Services\Mailer\AlternativeMailerGatewayInterface;
-use \SendGrid\Mail\Mail as SendGridMail;
-use SendGrid;
+use Exception;
+use \Mailjet\Resources;
+use \Mailjet\Client;
 
 
-class MailJetMailerGateway implements MailerGatewayInterface,AlternativeMailerGatewayInterface{
+class MailJetMailerGateway implements AlternativeMailerGatewayInterface{
 
 
-    private $sendgridService;
+    private $service;
     private $emailMessage;
+    private $fromEmail;
+    private $fromName;
 
 
     public function __construct()
     {
-        /* $this->sendgridService = new SendGrid(getenv('SENDGRID_API_KEY')); */
+        $key = getenv('MAILJET_API_KEY');
+        $secret = getenv('MAILJET_API_SECRET');
+        $this->fromEmail = getenv('MAILJET_FROM_EMAIL');
+        $this->fromName = getenv('MAILJET_FROM_NAME');
+        $this->service = new Client($key,$secret,true,['version' => 'v3.1']);
     }
 
     private function prepareMail(Mail $mail){
-        $fromEmail = getenv('SENDGRID_FROM_EMAIL');
-        $fromName = getenv('SENDGRID_FROM_NAME');
 
-        $this->emailMessage = new SendGridMail();
-        $this->emailMessage->setFrom( $fromEmail,$fromName );
-        $this->emailMessage->setSubject($mail->title);
-        $this->emailMessage->addTo($mail->recipients);
-        $this->emailMessage->addContent($mail->content_type, $mail->body);
-
+        $this->emailMessage = [
+            'Messages' => [
+                [
+                    'From' => [
+                    'Email' => $this->fromEmail,
+                    'Name' => $this->fromName
+                    ],
+                    'To' => [
+                        [
+                            'Email' => $mail->recipients,
+                        ]
+                    ],
+                    'Subject' => $mail->title,
+                    'HTMLPart' => $mail->body,
+                    'CustomID' => "AppGettingStartedTest"
+                ]
+            ]
+        ];
     }
 
     public function send(Mail $mail){
 
+        $this->prepareMail($mail);
+        $mail->bounced();
+        $response = $this->service->post(Resources::$Email, ['body' => $this->emailMessage]);
 
-        try {
-            $this->prepareMail($mail);
-            $mail->bounced();
-            $this->sendgridService->send($this->emailMessage);
-            $mail->delivered();
-            print "\n Enviado do MailJet \n";
-        } catch (\Exception $e) {
-              $mail->failed();
+        if(!$response->success()) {
+            $mail->failed();
             \Log::error($e->getMessage());
             \Log::error($e->getTraceAsString());
-           throw new \Exception($e->getMessage());
-
+            throw new Exception($response->getData());
         }
+
+        $mail->delivered();
+
 
     }
 

@@ -20,7 +20,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind( MailerGatewayInterface::class,function($app){
             return new SendGridMailerGateway();
         });
-         $this->app->bind( AlternativeMailerGatewayInterface::class,function($app){
+
+        $this->app->bind( AlternativeMailerGatewayInterface::class,function($app){
             return new MailJetMailerGateway();
         });
     }
